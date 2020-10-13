@@ -37,7 +37,7 @@ module SurRonDropOut(
 
     // Minkowski radius rounds the dropout corners
     // Adding rounded corners needs some other offsets adjusted.
-    mink_radius = 1.5;
+    mink_radius = 0;
 
     // Center adjuster channel in the dropout based on lengths
     adj_channel_length_offset  = (length - adj_length) + mink_radius;
@@ -70,25 +70,16 @@ module SurRonDropOut(
             difference() {
                 // Base dropout material which we subtract from with difference()
                 linear_extrude(depth) {
-                    minkowski() {
+                    //minkowski() {
                         square([length, height]);
-                        circle(r=mink_radius);
-                    }
+                      //  circle(r=mink_radius);
+                    //}
                 }
 
                 // Adjuster cutout
                 linear_extrude(adj_depth) {
                     translate([adj_channel_length_offset, adj_channel_height_offset, 0]) {
                         square([adj_length + mink_radius, adj_height]);
-                    }
-                }
-
-                // Adjuster bolt hole
-                rotate([0, 90, 0]) {
-                    linear_extrude(adj_bolt_length) {
-                        translate([-adj_bolt_depth_offset, axle_channel_height_offset, 0]) {
-                            circle(d=adj_bolt_diameter);
-                        }
                     }
                 }
 
